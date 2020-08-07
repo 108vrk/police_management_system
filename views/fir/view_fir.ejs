@@ -1,0 +1,150 @@
+<%- include('../h_n.ejs') %>
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>F I R Details</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">F I R Details</li>
+            </ol>
+          </div>
+         
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <% if(success_message.length > -1) { %><h3 class="" style="color:green; text-align: center;">
+      <%=success_message %>    </h3><% } %>
+    <% if(error_message.length > -1) { %><h3 class="" style="color:red; text-align: center;">
+      <%=error_message %>    </h3><% } %>
+    
+
+    <br><br>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            
+          
+
+            <div class="card">
+              
+              <!-- /.card-header -->
+              <div class="card-body">
+                <form role="form" method="post" enctype="multipart/form-data" action="<%=locals.baseURL %>/firs/edit">
+                    <div class="card-body">
+                      <div class="row">
+                          
+                        <div class="col-md-12 col-lg-12 col-sm-12" style="text-align: center;">
+                            <h4>Status</h4>
+                            <% if(fir.status==1){%>
+                                <span class="btn btn-sm btn-danger">Registered</span>
+                                <%}else if(fir.status==2){%>
+                                  <span class="btn btn-sm btn-primary">Progress</span>
+                                <%}else if(fir.status==3){%>
+                                  <span class="btn btn-sm btn-success">Closed</span>
+                                <%}else{%>
+                                        
+                                <%} %>
+                          </div><br>
+                          <div class="col-md-12 col-lg-12 col-sm-12">
+                        
+                            </div>
+
+
+                      <div class="col-md-4 col-lg-4 col-sm-12">
+                        <h3>By Citizen Details</h3>
+                        Name: <%=fir.by_citizen.firstName+' '+fir.by_citizen.lastName %> <br>
+                        Email: <%=fir.by_citizen.email %> <br>
+                        Mobile: <%=fir.by_citizen.mobileNumber %> <br>
+                        Aadhar: <%=fir.by_citizen.aadhar %> <br>
+                        Address: <%=fir.by_citizen.address %> <br>
+                        <% if(fir.by_citizen.image!='no-image') { %>
+                            <img src="<%=locals.baseURL %>/<%=fir.by_citizen.image %>" alt="Profile image" width:"100" height="100">
+                          <% }else{ %>
+                            <img src="http://localhost:7000/images/images.jpeg" alt="Profile image" width:"100" height="100">
+                          <% } %> <br>
+                      </div>
+                      <div class="col-md-4 col-lg-4 col-sm-12">
+                        
+                      </div>
+                      <div class="col-md-4 col-lg-4 col-sm-12">
+                        <h3>Against Citizen Details</h3>
+                        Name: <%=fir.against_citizen.firstName+' '+fir.against_citizen.lastName %> <br>
+                        Email: <%=fir.against_citizen.email %> <br>
+                        Mobile: <%=fir.against_citizen.mobileNumber %> <br>
+                        Aadhar: <%=fir.against_citizen.aadhar %> <br>
+                        Address: <%=fir.against_citizen.address %> <br>
+                        <% if(fir.against_citizen.image!='no-image') { %>
+                            <img src="<%=locals.baseURL %>/<%=fir.against_citizen.image %>" alt="Profile image" width:"100" height="100">
+                          <% }else{ %>
+                            <img src="http://localhost:7000/images/images.jpeg" alt="Profile image" width:"100" height="100">
+                          <% } %> <br>
+                      </div>
+                      
+
+                      <div class="col-md-4 col-lg-4 col-sm-12">
+                        <h3>Police Station Details</h3>
+                        Name: <%=fir.policeStation.name %> <br>
+                        City: <%=fir.policeStation.city %> <br>
+                        Pin code: <%=fir.policeStation.pincode %> <br>
+                        Address: <%=fir.policeStation.address %> <br>                        
+                      </div>
+                      <div class="col-md-4 col-lg-4 col-sm-12">
+                        
+                        </div>
+                      <div class="col-md-4 col-lg-4 col-sm-12">
+                        <h3>Enquiry Officer Details</h3>
+                        Name: <%=fir.enquiryOfficer.firstName+' '+fir.enquiryOfficer.lastName %> <br>
+                        Email: <%=fir.enquiryOfficer.email %> <br>
+                        Mobile: <%=fir.enquiryOfficer.mobileNumber %> <br>
+                        Address: <%=fir.enquiryOfficer.address %> <br>
+                        <% if(fir.enquiryOfficer.image!='no-image') { %>
+                            <img src="<%=locals.baseURL %>/<%=fir.enquiryOfficer.image %>" alt="Profile image" width:"100" height="100">
+                          <% }else{ %>
+                            <img src="http://localhost:7000/images/images.jpeg" alt="Profile image" width:"100" height="100">
+                          <% } %> <br>
+                      </div>
+                      
+                      
+                      <div class="col-md-12 col-lg-12 col-sm-12">
+                        <h3>F I R Data</h3>
+                        <%= fir.firData %>
+                      </div>
+                      
+                      
+                                                    
+                    </div>
+                    <!-- /.card-body -->
+        
+                    
+        
+                  </form>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+
+  <%- include('../footer.ejs') %>
+
+  

@@ -1,0 +1,145 @@
+<%- include('../h_n.ejs') %>
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>F I R</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">F I R</li>
+            </ol>
+          </div>
+         
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <% if(success_message.length > -1) { %><h3 class="" style="color:green; text-align: center;">
+      <%=success_message %>    </h3><% } %>
+    <% if(error_message.length > -1) { %><h3 class="" style="color:red; text-align: center;">
+      <%=error_message %>    </h3><% } %>
+    
+
+    <br><br>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            
+          
+
+            <div class="card">
+              
+              <!-- /.card-header -->
+              <div class="card-body">
+                <form role="form" method="post" enctype="multipart/form-data" action="<%=locals.baseURL %>/firs/add">
+                    <div class="card-body">
+                      <div class="row">
+                      <div class="form-group col-md-6">
+                          <label for="exampleInputEmail1">By Citizen</label>
+                          <select class="form-control" name="by_citizen" required>
+                            <option value="">Select By Citizen</option>
+                            <% for(let citizen of citizens) { %>
+                            <option value="<%=citizen._id %>"><%=citizen.firstName+' '+citizen.lastName %></option>                    
+                            <% } %>                   
+                          </select>                      
+                        </div>
+                      <div class="form-group col-md-6">
+                        <label for="exampleInputEmail1">Against Citizen</label>
+                        <select class="form-control" name="against_citizen" required>
+                            <option value="">Select Against Citizen</option>
+                            <% for(let citizen of citizens) { %>
+                            <option value="<%=citizen._id %>"><%=citizen.firstName+' '+citizen.lastName %></option>                    
+                            <% } %>                   
+                          </select>                      
+                        </div>
+                      <div class="form-group col-md-6">
+                          <label for="exampleInputEmail1">Police Station</label>
+                          <select class="form-control" name="policeStation" required onchange="getOfficers(this.value)">
+                            <option value="">Police Station</option>
+                            <% for(let station of policeStations) { %>
+                            <option value="<%=station._id %>"><%=station.name %></option>                    
+                            <% } %>                   
+                          </select>                      
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputEmail1">Enquiry Officer</label>
+                            <select class="form-control" id="enquiryOfficer" name="enquiryOfficer" required>
+                                <option value="">Enquiry Officer</option>
+                                                
+                            </select>                      
+                          </div> 
+                      <div class="form-group col-md-6">
+                        <label for="exampleInputEmail1">Incident Place</label>
+                        <input type="text" class="form-control" name="incidentPlace" id="exampleInputEmail1" value="" placeholder="Enter Mobile Number" required>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="exampleInputEmail1">Incident Date</label>
+                        <input type="date" class="form-control" name="incidentDate" value="" id="exampleInputEmail1"  placeholder="Enter Mobile Number" required>
+                      </div>
+        
+                      
+                      
+                      
+                      <div class="form-group col-md-12">
+                        <label for="exampleInputEmail1">Details</label>
+                        <textarea class="form-control" rows="8" name="firData"placeholder="Enter address" required></textarea>
+                      </div>
+                                                    
+                    </div>
+                    <!-- /.card-body -->
+        
+                    <div class="modal-footer pull-right">
+                      <button type="submit" class="btn btn-success">Add F I R</button>
+                    </div>
+        
+                  </form>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+
+  <%- include('../footer.ejs') %>
+
+  <script>
+    function getOfficers(id){
+      //alert(id);
+      fetch('<%=locals.baseURL %>/firs/getOfficers/'+id)
+            .then(res => res.json())
+            .then(data => {
+                if(data.status == 'success'){
+                    let myData = '';
+                    myData = '<option value="">Enquiry Officer</option>';
+                    for(let officer of data.officers){
+                        myData = myData + '<option value='+officer._id+'>'+officer.firstName+'</option>'
+                    }
+                    document.getElementById('enquiryOfficer').innerHTML = myData;
+                    //alert(myData);
+                }else{
+
+                }
+            })                                        
+            .catch(err => {
+                console.log(JSON.stringify(err));
+                })
+    }
+  </script>

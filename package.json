@@ -1,0 +1,34 @@
+{
+  "name": "police",
+  "version": "1.0.0",
+  "description": "A simple application to maintain police stations, employees and cases",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "Venkat",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "connect-mongodb-session": "^2.3.3",
+    "csurf": "^1.11.0",
+    "ejs": "^3.1.3",
+    "exceljs": "^4.1.1",
+    "express": "^4.17.1",
+    "express-router": "0.0.1",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.6.0",
+    "mongodb": "^3.5.9",
+    "mongoose": "^5.9.22",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.4.10",
+    "nodemailer-sendgrid": "^1.0.3",
+    "nodemon": "^2.0.4",
+    "pdfkit": "^0.11.0",
+    "transport": "0.0.3"
+  }
+}

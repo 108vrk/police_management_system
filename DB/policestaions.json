@@ -1,0 +1,3 @@
+{"_id":{"$oid":"5f2696002af8e95eb5f78d20"},"deleteStatus":{"$numberInt":"0"},"name":"Malleshwaram Police Station\t","city":"Bangalore1","pincode":"560003","address":"Malleshwaram, Bangalore, 560058","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5f2696072af8e95eb5f78d21"},"deleteStatus":{"$numberInt":"0"},"name":"Bagalgunte Police Station","city":"Bangalore2","pincode":"500073","address":"MEI layout, Bagalgunte, Bangalore 560073","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5f2696142af8e95eb5f78d22"},"deleteStatus":{"$numberInt":"0"},"name":"Peenya Police Statione","city":"Bangalore3","pincode":"560058","address":"Peeny, Bangalore, 560058","__v":{"$numberInt":"0"}}

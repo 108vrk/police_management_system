@@ -1,0 +1,126 @@
+<%- include('./h_n.ejs') %>
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Police Officers</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Police Officers</li>
+            </ol>
+          </div>
+         
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <% if(success_message.length > -1) { %><h3 class="" style="color:green; text-align: center;">
+      <%=success_message %>    </h3><% } %>
+    <% if(error_message.length > -1) { %><h3 class="" style="color:red; text-align: center;">
+      <%=error_message %>    </h3><% } %>
+    <!-- <button type="button" style="float:right;margin-right: 1vw;" class="btn btn-info" data-toggle="modal" data-target="#modal-add">
+      Add Police Station
+    </button> -->
+
+    <br><br>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            
+            
+
+            <div class="card">
+              
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <!-- <th>Action</th> -->
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email ID</th>
+                    <th>Mobile Number</th>
+                    <th>Address</th>                    
+                  </tr>
+                  </thead>
+                  <tbody>
+                  
+                  <% if(officers.length > 0){ %>
+                    
+                    <% for(let officer of officers){ %>
+
+                      <tr>
+                        <!-- <td>
+                          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit_<%=officer._id %>">
+                            Edit
+                          </button>
+                          <button class="btn btn-danger btn-sm" style="margin-left: 1vw;" onclick="deletePoliceStation('<%=officer._id %>')">Delete</button>
+                          <a class="btn btn-success btn-sm" href="<%=locals.baseURL %>/policeStations/officers/<%=officer._id %>">Officers</a>
+                        </td> -->
+                        <td><%=officer.firstName %></td>
+                        <td><%=officer.lastName %></td>
+                        <td><%=officer.email %></td>
+                        <td><%=officer.mobileNumber %></td>
+                        <td><%=officer.address %></td> 
+                      </tr>
+
+
+                      
+
+
+
+
+
+
+
+                    <% } %>
+                  
+                  <% } %>
+                  
+                  
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <!-- <th>Action</th> -->
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email ID</th>
+                    <th>Mobile Number</th>
+                    <th>Address</th>  
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+
+  <%- include('./footer.ejs') %>
+
+  

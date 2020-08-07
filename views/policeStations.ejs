@@ -1,0 +1,233 @@
+<%- include('./h_n.ejs') %>
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Police Stations</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Police Stations</li>
+            </ol>
+          </div>
+         
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <% if(success_message.length > -1) { %><h3 class="" style="color:green; text-align: center;">
+      <%=success_message %>    </h3><% } %>
+    <% if(error_message.length > -1) { %><h3 class="" style="color:red; text-align: center;">
+      <%=error_message %>    </h3><% } %>
+    <button type="button" style="float:right;margin-right: 1vw;" class="btn btn-info" data-toggle="modal" data-target="#modal-add">
+      Add Police Station
+    </button>
+    <a type="button" style="float:right;margin-right: 1vw;" class="btn btn-info" href="<%=locals.baseURL %>/policeStations/excel">
+      Export Excel
+    </a>
+    
+
+    <br><br>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            
+            
+
+            <div class="card">
+              
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>Action</th>
+                    <th>Name</th>
+                    <th>City</th>
+                    <th>Pin Code</th>
+                    <th>Address</th>                    
+                  </tr>
+                  </thead>
+                  <tbody>
+                  
+                  <% if(policeStations.length > 0){ %>
+                    
+                    <% for(let station of policeStations){ %>
+
+                      <tr>
+                        <td>
+                          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit_<%=station._id %>">
+                            <i class="fa fa-edit"></i>
+                          </button>
+                          <button class="btn btn-danger btn-sm" style="margin-left: 1vw;" onclick="deletePoliceStation('<%=station._id %>')"><i class="fa fa-trash"></i></button>
+                          <a class="btn btn-success btn-sm" href="<%=locals.baseURL %>/policeStations/officers/<%=station._id %>">Officers</a>
+                        </td>
+                        <td><%=station.name %></td>
+                        <td><%=station.city %></td>
+                        <td><%=station.pincode %></td>
+                        <td><%=station.address %></td> 
+                      </tr>
+
+
+                      <div class="modal fade" id="edit_<%=station._id %>">
+                        <div class="modal-dialog">
+                          <div class="modal-content bg-info">
+                            <div class="modal-header">
+                              <h4 class="modal-title">Edit Police Station</h4>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                              <!-- form start -->
+                              <form role="form" method="post" action="<%=locals.baseURL %>/policeStations/edit">
+                                <input type="hidden" name="id" value="<%=station._id %>">
+                                <div class="card-body">
+                                  <div class="row">
+                                  <div class="form-group col-md-12">
+                                      <label for="exampleInputEmail1">Name</label>
+                                      <input type="text" class="form-control" name="name" id="exampleInputEmail1" value="<%=station.name %>" placeholder="Police Station Name" required>
+                                  </div>
+                                  <div class="form-group col-md-12">
+                                      <label for="exampleInputEmail1">City</label>
+                                      <input type="text" class="form-control" name="city" id="exampleInputEmail1" value="<%=station.city %>" placeholder="City" required>
+                                  </div>
+                                  <div class="form-group col-md-12">
+                                      <label for="exampleInputEmail1">Pin Code</label>
+                                      <input type="number" class="form-control" name="pincode" id="exampleInputEmail1" value="<%=station.pincode %>" placeholder="Enter email" required>
+                                  </div>
+                                  <div class="form-group col-md-12">
+                                    <label for="exampleInputEmail1">Address</label>
+                                    <textarea class="form-control" rows="3" name="address"placeholder="Enter address" required><%=station.address %></textarea>
+                                  </div>
+                                  
+                                    
+                                  
+                                </div>
+                                <!-- /.card-body -->
+                    
+                                <div class="modal-footer justify-content-between">
+                                  <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+                                  <button type="submit" class="btn btn-outline-light">Update Police Station</button>
+                                </div>
+                    
+                              </form>
+                              </div>
+                            </div>
+                            
+                            
+                          </div>
+                          <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                      </div>
+                      <!-- /.modal -->
+
+
+
+
+
+
+
+
+                    <% } %>
+                  
+                  <% } %>
+                  
+                  
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <th>Action</th>
+                    <th>Name</th>
+                    <th>City</th>
+                    <th>Pin Code</th>
+                    <th>Address</th> 
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <div class="modal fade" id="modal-add">
+    <div class="modal-dialog">
+      <div class="modal-content bg-info">
+        <div class="modal-header">
+          <h4 class="modal-title">Add Police Station</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <!-- form start -->
+          <form role="form" method="post" action="<%=locals.baseURL %>/policeStations/add">
+            <div class="card-body">
+              <div class="row">
+              <div class="form-group col-md-12">
+                  <label for="exampleInputEmail1">Name</label>
+                  <input type="text" class="form-control" name="name" id="exampleInputEmail1" value="" placeholder="Police Station Name" required>
+              </div>
+              <div class="form-group col-md-12">
+                  <label for="exampleInputEmail1">City</label>
+                  <input type="text" class="form-control" name="city" id="exampleInputEmail1" value="" placeholder="City" required>
+              </div>
+              <div class="form-group col-md-12">
+                  <label for="exampleInputEmail1">Pin Code</label>
+                  <input type="number" class="form-control" name="pincode" id="exampleInputEmail1" value="" placeholder="Enter email" required>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="exampleInputEmail1">Address</label>
+                <textarea class="form-control" rows="3" name="address"placeholder="Enter address" required></textarea>
+              </div>
+              
+                
+              
+            </div>
+            <!-- /.card-body -->
+
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-outline-light">Add Police Station</button>
+            </div>
+
+          </form>
+          </div>
+        </div>
+        
+        
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+
+  <%- include('./footer.ejs') %>
+
+  <script>
+    function deletePoliceStation(id){
+      //alert(id);
+      var result = confirm("Want to delete?");
+        if (result) {
+          location.href = '<%=locals.baseURL %>/policeStations/delete/'+id;
+        }
+    }
+  </script>

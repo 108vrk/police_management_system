@@ -1,0 +1,91 @@
+<%- include('./h_n.ejs') %>
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>System Settings</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">System Settings</li>
+            </ol>
+          </div>
+         
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <% if(success_message.length > -1) { %><h3 class="" style="color:green; text-align: center;">
+      <%=success_message %>    </h3><% } %>
+    <% if(error_message.length > -1) { %><h3 class="" style="color:red; text-align: center;">
+      <%=error_message %>    </h3><% } %>
+    
+
+    <br><br>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            
+          
+
+            <div class="card">
+              
+              <!-- /.card-header -->
+              <div class="card-body">
+                <form role="form" method="post" enctype="multipart/form-data" action="<%=locals.baseURL %>/system">
+                    <div class="card-body">
+                      <div class="row">
+                                                                  
+                        
+                      <div class="form-group col-md-6">
+                        <label for="exampleInputEmail1">Title</label>
+                        <input type="text" class="form-control" name="title" id="exampleInputEmail1" value="<%=system[0].title %>" placeholder="Enter Application Title" required>
+                      </div>
+                      
+                      <div class="form-group col-md-6">
+                        <label for="exampleInputEmail1">Short Title</label>
+                        <input type="text" class="form-control" name="shortTitle" id="exampleInputEmail1" value="<%=system[0].shortTitle %>" placeholder="Enter Application Short Title" required>
+                      </div>
+                      
+                      
+                      <div class="form-group col-md-12">
+                        <label for="exampleInputEmail1">Footer</label>
+                        <input type="text" class="form-control" name="footer" id="exampleInputEmail1" value="<%=system[0].footer %>" placeholder="Enter Footer Content" required>
+                      </div>
+                                                    
+                    </div>
+                    <!-- /.card-body -->
+        
+                    <div class="modal-footer pull-right">
+                      <button type="submit" class="btn btn-success">Update Settings</button>
+                    </div>
+        
+                  </form>
+              </div>
+              <span style="color:red">This is not yet made to work dynamically but gets updated</span>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+
+  <%- include('./footer.ejs') %>
+
+  

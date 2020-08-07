@@ -1,0 +1,146 @@
+<%- include('../h_n.ejs') %>
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>FIRs</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">firs</li>
+            </ol>
+          </div>
+         
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <% if(success_message.length > -1) { %><h3 class="" style="color:green; text-align: center;">
+      <%=success_message %>    </h3><% } %>
+    <% if(error_message.length > -1) { %><h3 class="" style="color:red; text-align: center;">
+      <%=error_message %>    </h3><% } %>
+      <a href="<%locals.baseURL %>/firs/add" type="button" style="float:right;margin-right: 1vw;" class="btn btn-info">
+        Add F I R
+      </a>
+      <a type="button" style="float:right;margin-right: 1vw;" class="btn btn-info" href="<%=locals.baseURL %>/firs/excel">
+        Export Excel
+      </a>
+
+    <br><br>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            
+            
+
+            <div class="card">
+              
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" style="text-align: center;" class="table table-bordered table-striped;">
+                  <thead>
+                  <tr>
+                    <th>Action</th>
+                    <th>By</th>                    
+                    <th>Against</th>
+                    <th>Police Station</th>
+                    <th>Enquiry Officer</th>
+                    <th>Status</th>
+                                       
+                  </tr>
+                  </thead>
+                  <tbody>
+                  
+                  <% if(firs.length > 0){ %>
+                    
+                    <% for(let fir of firs){ %>
+
+                      <tr>
+                        <td>
+                          <a type="button" class="btn btn-primary btn-sm" href="<%=locals.baseURL %>/firs/edit/<%=fir._id %>">
+                            <i class="fa fa-edit"></i>
+                          </a>
+                          <button class="btn btn-danger btn-sm" style="margin-left: 1vw;" onclick="deletefir('<%=fir._id %>')"><i class="fa fa-trash"></i></button>
+                          <a type="button" class="btn btn-info btn-sm" style="margin-left: 1vw;" href="<%=locals.baseURL %>/firs/view/<%=fir._id %>">
+                            <i class="fa fa-eye"></i>
+                          </a>
+                          <a type="button" title="print / download" class="btn btn-warning btn-sm" style="margin-left: 1vw;" href="<%=locals.baseURL %>/firs/print/<%=fir._id %>">
+                            <i class="fa fa-print"></i>
+                          </a>
+                        </td>
+                        <td><%=fir.by_citizen.firstName+' '+fir.by_citizen.lastName %></td>   
+                        <td><%=fir.against_citizen.firstName+' '+fir.against_citizen.lastName %></td>
+                        <td><%=fir.policeStation.name %></td>   
+                        <td><%=fir.enquiryOfficer.firstName+' '+fir.enquiryOfficer.lastName %></td>  
+                        <td>
+                          <% if(fir.status==1){%>
+                            <span class="btn btn-sm btn-danger">Registered</span>
+                            <%}else if(fir.status==2){%>
+                              <span class="btn btn-sm btn-primary">Progress</span>
+                            <%}else if(fir.status==3){%>
+                              <span class="btn btn-sm btn-success">Closed</span>
+                            <%}else{%>
+                                    
+                            <%} %>
+                        </td>                        
+                        
+                        
+                        
+                      </tr>
+
+
+                      
+
+
+                    <% } %>
+                  
+                  <% } %>
+                  
+                  
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <th>Action</th>
+                    <th>By</th>                    
+                    <th>Against</th>
+                    <th>Police Station</th>
+                    <th>Enquiry Officer</th>
+                    <th>Status</th>
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+
+  <%- include('../footer.ejs') %>
+
+  <script>
+    function deletefir(id){
+      //alert(id);
+      var result = confirm("Want to delete?");
+        if (result) {
+          location.href = '<%=locals.baseURL %>/firs/delete/'+id;
+        }
+    }
+  </script>

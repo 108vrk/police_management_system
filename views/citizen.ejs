@@ -1,0 +1,354 @@
+<%- include('./h_n.ejs') %>
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Citizens</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Citizens</li>
+            </ol>
+          </div>
+         
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <% if(success_message.length > -1) { %><h3 class="" style="color:green; text-align: center;">
+      <%=success_message %>    </h3><% } %>
+    <% if(error_message.length > -1) { %><h3 class="" style="color:red; text-align: center;">
+      <%=error_message %>    </h3><% } %>
+    <button type="button" style="float:right;margin-right: 1vw;" class="btn btn-info" data-toggle="modal" data-target="#modal-add">
+      Add Citizen
+    </button>
+    <a type="button" style="float:right;margin-right: 1vw;" class="btn btn-info" href="<%=locals.baseURL %>/citizens/excel">
+      Export Excel
+    </a>
+
+    <br><br>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            
+            
+
+            <div class="card">
+              
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" style="text-align: center;" class="table table-bordered table-striped;">
+                  <thead>
+                  <tr>
+                    <th>Action</th>
+                    <th>Name</th>                    
+                    <th>Mobile Number</th>
+                    <th>Image</th>
+                                       
+                  </tr>
+                  </thead>
+                  <tbody>
+                  
+                  <% if(citizens.length > 0){ %>
+                    
+                    <% for(let citizen of citizens){ %>
+
+                      <tr>
+                        <td>
+                          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit_<%=citizen._id %>"<% if(citizen.usertype==1){%> disabled<% } %>>
+                            <i class="fa fa-edit"></i>
+                          </button>
+                          <button class="btn btn-danger btn-sm" style="margin-left: 1vw;" onclick="deleteCitizen('<%=citizen._id %>')" <% if(citizen.usertype==1){%> disabled<% } %>><i class="fa fa-trash"></i></button>
+                          <button type="button" class="btn btn-info btn-sm" style="margin-left: 1vw;" data-toggle="modal" data-target="#details_<%=citizen._id %>"<% if(citizen.usertype==1){%> disabled<% } %>>
+                            <i class="fa fa-eye"></i>
+                          </button>
+                        </td>
+                        <td><%=citizen.firstName+" "+citizen.lastName %></td>   
+                        <td><%=citizen.mobileNumber %></td>                         
+                        
+                        <td>
+                            <% if(citizen.image!='no-image') { %>
+                                <img src="<%=locals.baseURL %>/<%=citizen.image %>" alt="Profile image" width:"50" height="30">
+                              <% }else{ %>
+                                <img src="http://localhost:7000/images/images.jpeg" alt="Profile image" width:"50" height="30">
+                              <% } %>
+                        </td>
+                        
+                      </tr>
+
+
+                      <div class="modal fade" id="edit_<%=citizen._id %>">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content bg-info">
+                            <div class="modal-header">
+                              <h4 class="modal-title">Edit Citizen</h4>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                              <!-- form start -->
+                              <form role="form" method="post" enctype="multipart/form-data" action="<%=locals.baseURL %>/citizens/edit">
+                                <input type="hidden" name="id" value="<%=citizen._id %>">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">First Name</label>
+                                            <input type="text" class="form-control" name="firstName" id="exampleInputEmail1" value="<%=citizen.firstName %>" placeholder="Enter First Name" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label for="exampleInputEmail1">Last Name</label>
+                                          <input type="text" class="form-control" name="lastName" id="exampleInputEmail1" value="<%=citizen.lastName %>" placeholder="Enter Last Name" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Email</label>
+                                            <input type="email" class="form-control" name="email" id="exampleInputEmail1" value="<%=citizen.email %>" placeholder="Enter Email ID" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label for="exampleInputEmail1">Mobile Number</label>
+                                          <input type="number" class="form-control" name="mobileNumber" pattern="[789][0-9]{9}" id="exampleInputEmail1" value="<%=citizen.mobileNumber %>" placeholder="Enter Mobile Number" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                          <label for="exampleInputEmail1">Aadhar Number</label>
+                                          <input type="number" class="form-control" name="aadhar" pattern="[0-9]{12}" id="exampleInputEmail1" value="<%=citizen.aadhar %>" placeholder="Enter Aadhar Number" required>
+                                        </div>
+                          
+                                        <div class="form-group col-md-6">
+                                          <label for="exampleInputEmail1">Photo</label>
+                                          <input type="file" class="form-control" name="image"  value="">
+                                        </div>
+                                        
+                                        
+                                        <div class="form-group col-md-12">
+                                          <label for="exampleInputEmail1">Address</label>
+                                          <textarea class="form-control" rows="3" name="address"placeholder="Enter address" required><%=citizen.address %></textarea>
+                                        </div>
+                                        
+                                      
+                                    
+                                  </div>
+                                  <!-- /.card-body -->
+                      
+                                  <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-outline-light">Update Citizen</button>
+                                  </div>
+                      
+                              </form>
+                              </div>
+                            </div>
+                            
+                            
+                          </div>
+                          <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                      </div>
+                      <!-- /.modal -->
+
+                      <div class="modal fade" id="details_<%=citizen._id %>">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content bg-info">
+                            <div class="modal-header">
+                              <h4 class="modal-title">Citizen Details</h4>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                              <!-- form start -->
+                              
+                                <div class="card-body">
+                                    <div class="row">
+                                      
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleInputEmail1">First Name</label>                                        
+                                    </div>
+                                    <div class="form-group col-md-6">                                      
+                                      <label><%=citizen.firstName %></label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label for="exampleInputEmail1">Last Name</label>                                        
+                                    </div>
+                                    <div class="form-group col-md-6">                                      
+                                      <label><%=citizen.lastName %></label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label for="exampleInputEmail1">Email ID</label>                                        
+                                    </div>
+                                    <div class="form-group col-md-6">                                      
+                                      <label><%=citizen.email %></label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label for="exampleInputEmail1">Mobile Number</label>                                        
+                                    </div>
+                                    <div class="form-group col-md-6">                                      
+                                      <label><%=citizen.mobileNumber %></label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label for="exampleInputEmail1">Aadhar Number</label>                                        
+                                    </div>
+                                    <div class="form-group col-md-6">                                      
+                                      <label><%=citizen.aadhar %></label>
+                                    </div>
+                                    
+                                    <div class="form-group col-md-6">
+                                      <label for="exampleInputEmail1">Address</label>                                        
+                                    </div>
+                                    <div class="form-group col-md-6">                                      
+                                      <label><%=citizen.address %></label>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleInputEmail1">Photo</label>                                        
+                                      </div>
+                                      <div class="form-group col-md-6">                                      
+                                        <label>
+                                            <% if(citizen.image!='no-image') { %>
+                                                <img src="<%=locals.baseURL %>/<%=citizen.image %>" alt="Profile image" width:"200" height="200">
+                                              <% }else{ %>
+                                                <img src="http://localhost:7000/images/images.jpeg" alt="Profile image" width:"200" height="200">
+                                              <% } %>
+                                        </label>
+                                      </div>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                      
+                                    
+                                  </div>
+                                  <!-- /.card-body -->
+                      
+                                 
+                      
+                              
+                              </div>
+                            </div>
+                            
+                            
+                          </div>
+                          <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                      </div>
+                      <!-- /.modal -->
+
+
+
+
+                    <% } %>
+                  
+                  <% } %>
+                  
+                  
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <th>Action</th>
+                    <th>Name</th>                    
+                    <th>Mobile Number</th>
+                    <th>Image</th> 
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <div class="modal fade" id="modal-add">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content bg-info">
+        <div class="modal-header">
+          <h4 class="modal-title">Add Citizen</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <!-- form start -->
+          <form role="form" method="post" enctype="multipart/form-data" action="<%=locals.baseURL %>/citizens/add">
+            <div class="card-body">
+              <div class="row">
+              <div class="form-group col-md-6">
+                  <label for="exampleInputEmail1">First Name</label>
+                  <input type="text" class="form-control" name="firstName" id="exampleInputEmail1" value="" placeholder="Enter First Name" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="exampleInputEmail1">Last Name</label>
+                <input type="text" class="form-control" name="lastName" id="exampleInputEmail1" value="" placeholder="Enter Last Name" required>
+              </div>
+              <div class="form-group col-md-6">
+                  <label for="exampleInputEmail1">Email</label>
+                  <input type="email" class="form-control" name="email" id="exampleInputEmail1" value="" placeholder="Enter Email ID" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="exampleInputEmail1">Mobile Number</label>
+                <input type="number" class="form-control" name="mobileNumber" pattern="[789][0-9]{9}" id="exampleInputEmail1" value="" placeholder="Enter Mobile Number" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="exampleInputEmail1">Aadhar Number</label>
+                <input type="number" class="form-control" name="aadhar" pattern="[0-9]{12}" id="exampleInputEmail1" value="" placeholder="Enter Aadhar Number" required>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="exampleInputEmail1">Photo</label>
+                <input type="file" class="form-control" name="image"  value="" required>
+              </div>
+              
+              
+              <div class="form-group col-md-12">
+                <label for="exampleInputEmail1">Address</label>
+                <textarea class="form-control" rows="3" name="address"placeholder="Enter address" required></textarea>
+              </div>
+                                            
+            </div>
+            <!-- /.card-body -->
+
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-outline-light">Add Citizen</button>
+            </div>
+
+          </form>
+          </div>
+        </div>
+        
+        
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+
+  <%- include('./footer.ejs') %>
+
+  <script>
+    function deleteCitizen(id){
+      //alert(id);
+      var result = confirm("Want to delete?");
+        if (result) {
+          location.href = '<%=locals.baseURL %>/citizens/delete/'+id;
+        }
+    }
+  </script>

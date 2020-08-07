@@ -1,0 +1,104 @@
+<%- include('./h_n.ejs') %>
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Profile</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">User Profile</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <% if(success_message.length > -1) { %><h3 class="" style="color:green; text-align: center;">
+      <%=success_message %>    </h3><% } %>
+    <% if(error_message.length > -1) { %><h3 class="" style="color:red; text-align: center;">
+      <%=error_message %>    </h3><% } %>
+
+
+      <%=locals.user.firstName %>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+                            
+            <div class="card card-primary">
+                
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form role="form" enctype="multipart/form-data" method="post" action="<%=locals.baseURL %>/auth/profile">
+                  <input type="hidden" name="id" value="<%=_id %>">
+                  <div class="card-body">
+                    <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="exampleInputEmail1">First Name</label>
+                        <input type="text" class="form-control" name="firstName" id="exampleInputEmail1" value="<%=firstName %>" placeholder="First Name">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="exampleInputEmail1">Last Name</label>
+                        <input type="text" class="form-control" name="lastName" id="exampleInputEmail1" value="<%=lastName %>" placeholder="Last Name">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="exampleInputEmail1">Mobile Number</label>
+                        <input type="number" class="form-control" name="mobileNumber" id="exampleInputEmail1" value="<%=mobileNumber %>" placeholder="Enter email" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="exampleInputEmail1">Email address</label>
+                      <input type="email" class="form-control" name="email" id="exampleInputEmail1" placeholder="Enter email" value="<%=email %>" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="exampleInputPassword1">Password</label>
+                      <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                      <div class="form-group col-md-6">
+                        <label for="exampleInputPassword1">Confirm Password</label>
+                        <input type="confirmPassword" class="form-control" name="confirmPassword" id="exampleInputPassword1" placeholder="Confirm Password">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="exampleInputPassword1">Profile Picture</label>
+                        <input type="file" class="form-control" name="image" id="exampleInputPassword1" placeholder="">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <% if(image=='no-image') { %>
+                          <img src="<%=locals.baseURL %>/images/images.jpeg" alt="Profile image" width:"100" height="100">
+                        <% }else{ %>
+                          <img src="<%=locals.baseURL %>/<%=image %>" alt="Profile image" width:"100" height="100">
+                        <% } %>
+                      </div>
+                    <!-- <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div> -->
+                  </div>
+                  <!-- /.card-body -->
+  
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+                </div>
+              </div>
+
+           
+            <!-- /.card -->          
+          
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+  <%- include('./footer.ejs') %>
+
+  

@@ -1,0 +1,391 @@
+<%- include('./h_n.ejs') %>
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Police Officers</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Police Officers</li>
+            </ol>
+          </div>
+         
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <% if(success_message.length > -1) { %><h3 class="" style="color:green; text-align: center;">
+      <%=success_message %>    </h3><% } %>
+    <% if(error_message.length > -1) { %><h3 class="" style="color:red; text-align: center;">
+      <%=error_message %>    </h3><% } %>
+    <button type="button" style="float:right;margin-right: 1vw;" class="btn btn-info" data-toggle="modal" data-target="#modal-add">
+      Add Police Officier
+    </button>
+    <a type="button" style="float:right;margin-right: 1vw;" class="btn btn-info" href="<%=locals.baseURL %>/policeOfficers/excel">
+      Export Excel
+    </a>
+
+    <br><br>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            
+            
+
+            <div class="card">
+              
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" style="text-align: center;" class="table table-bordered table-striped;">
+                  <thead>
+                  <tr>
+                    <th>Action</th>
+                    <th>Name</th>                    
+                    <th>Station</th>
+                    <th>Designation</th>
+                                       
+                  </tr>
+                  </thead>
+                  <tbody>
+                  
+                  <% if(policeOfficers.length > 0){ %>
+                    
+                    <% for(let officier of policeOfficers){ %>
+
+                      <tr>
+                        <td>
+                          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit_<%=officier._id %>"<% if(officier.usertype==1){%> disabled<% } %>>
+                            <i class="fa fa-edit"></i>
+                          </button>
+                          <button class="btn btn-danger btn-sm" style="margin-left: 1vw;" onclick="deletePoliceOfficer('<%=officier._id %>')" <% if(officier.usertype==1){%> disabled<% } %>><i class="fa fa-trash"></i></button>
+                          <button type="button" class="btn btn-info btn-sm" style="margin-left: 1vw;" data-toggle="modal" data-target="#details_<%=officier._id %>"<% if(officier.usertype==1){%> disabled<% } %>>
+                            <i class="fa fa-eye"></i>
+                          </button>                          
+                        </td>
+                        <td><%=officier.firstName+" "+officier.lastName %></td>                        
+                        <td>
+                            <% if(officier.usertype==1){ %>
+                                Not Applicable
+                              <% } else{ %>  
+                                <%=officier.policeStation %>
+                             <% } %>
+                        </td>
+                        <td>
+                            <% if(officier.usertype==1){%>
+                                    Not Applicable
+                            <%}else if(officier.usertype==2){%>
+                                    Inspector
+                            <%}else if(officier.usertype==3){%>
+                                    Enquiry Officer
+                            <%}else{%>
+                                    Constable
+                            <%} %>
+                        </td>
+                        
+                      </tr>
+
+
+                      <div class="modal fade" id="edit_<%=officier._id %>">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content bg-info">
+                            <div class="modal-header">
+                              <h4 class="modal-title">Edit Police Officer</h4>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                              <!-- form start -->
+                              <form role="form" method="post" action="<%=locals.baseURL %>/policeOfficers/edit">
+                                <input type="hidden" name="id" value="<%=officier._id %>">
+                                <div class="card-body">
+                                    <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleInputEmail1">First Name</label>
+                                        <input type="text" class="form-control" name="firstName" id="exampleInputEmail1" value="<%=officier.firstName %>" placeholder="Enter First Name" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label for="exampleInputEmail1">Last Name</label>
+                                      <input type="text" class="form-control" name="lastName" id="exampleInputEmail1" value="<%=officier.lastName %>" placeholder="Enter Last Name" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleInputEmail1">Email</label>
+                                        <input type="email" class="form-control" name="email" id="exampleInputEmail1" value="<%=officier.email %>" placeholder="Enter Email ID" required readonly>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label for="exampleInputEmail1">Mobile Number</label>
+                                      <input type="number" class="form-control" name="mobileNumber" id="exampleInputEmail1" value="<%=officier.mobileNumber %>" placeholder="Enter Email ID" required readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <!-- select -->
+                                      <div class="form-group">
+                                        <label>Select Police Station</label>
+                                        <select class="form-control" name="policeStation" required>
+                                          <option value="">Police Station</option>
+                                          <% for(let station of policeStations) { %>
+                                          <option value="<%=station._id %>" <% if(station._id == officier.policeStationId){ %> 'selected' <% } %>><%=station.name %></option>                    
+                                          <% } %>                   
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <!-- select -->
+                                      <div class="form-group">
+                                        <label>Select Officer Type</label>
+                                        <select class="form-control" name="usertype" required>
+                                          <option value="">Officer Type</option>
+                                          <option value="2">Inspector</option>
+                                          <option value="3">Enquiry Officer</option>
+                                          <option value="4">Constable</option>                    
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label for="exampleInputEmail1">Address</label>
+                                      <textarea class="form-control" rows="3" name="address"placeholder="Enter address" required><%=officier.address %></textarea>
+                                    </div>
+                                    
+                                      
+                                    
+                                  </div>
+                                  <!-- /.card-body -->
+                      
+                                  <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-outline-light">Update Police Officer</button>
+                                  </div>
+                      
+                              </form>
+                              </div>
+                            </div>
+                            
+                            
+                          </div>
+                          <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                      </div>
+                      <!-- /.modal -->
+
+                      <div class="modal fade" id="details_<%=officier._id %>">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content bg-info">
+                            <div class="modal-header">
+                              <h4 class="modal-title">Police Officer Details</h4>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                              <!-- form start -->
+                              
+                                <div class="card-body">
+                                    <div class="row">
+                                      
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleInputEmail1">First Name</label>                                        
+                                    </div>
+                                    <div class="form-group col-md-6">                                      
+                                      <label><%=officier.firstName %></label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label for="exampleInputEmail1">Last Name</label>                                        
+                                    </div>
+                                    <div class="form-group col-md-6">                                      
+                                      <label><%=officier.lastName %></label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label for="exampleInputEmail1">Email ID</label>                                        
+                                    </div>
+                                    <div class="form-group col-md-6">                                      
+                                      <label><%=officier.email %></label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label for="exampleInputEmail1">Mobile Number</label>                                        
+                                    </div>
+                                    <div class="form-group col-md-6">                                      
+                                      <label><%=officier.mobileNumber %></label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label for="exampleInputEmail1">Police Station</label>                                        
+                                    </div>
+                                    <div class="form-group col-md-6">                                      
+                                      <label><%=officier.policeStation %></label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label for="exampleInputEmail1">Designation</label>                                        
+                                    </div>
+                                    <div class="form-group col-md-6">                                      
+                                      <label>
+                                        <% if(officier.usertype==1){%>
+                                          Not Applicable
+                                          <%}else if(officier.usertype==2){%>
+                                                  Inspector
+                                          <%}else if(officier.usertype==3){%>
+                                                  Enquiry Officer
+                                          <%}else{%>
+                                                  Constable
+                                          <%} %>
+                                      </label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label for="exampleInputEmail1">Address</label>                                        
+                                    </div>
+                                    <div class="form-group col-md-6">                                      
+                                      <label><%=officier.address %></label>
+                                    </div>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                      
+                                    
+                                  </div>
+                                  <!-- /.card-body -->
+                      
+                                 
+                      
+                              
+                              </div>
+                            </div>
+                            
+                            
+                          </div>
+                          <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                      </div>
+                      <!-- /.modal -->
+
+
+
+
+                    <% } %>
+                  
+                  <% } %>
+                  
+                  
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <th>Action</th>
+                    <th>Name</th>                    
+                    <th>Station</th>
+                    <th>Designation</th> 
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <div class="modal fade" id="modal-add">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content bg-info">
+        <div class="modal-header">
+          <h4 class="modal-title">Add Police Offier</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <!-- form start -->
+          <form role="form" method="post" action="<%=locals.baseURL %>/policeOfficers/add">
+            <div class="card-body">
+              <div class="row">
+              <div class="form-group col-md-6">
+                  <label for="exampleInputEmail1">First Name</label>
+                  <input type="text" class="form-control" name="firstName" id="exampleInputEmail1" value="" placeholder="Enter First Name" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="exampleInputEmail1">Last Name</label>
+                <input type="text" class="form-control" name="lastName" id="exampleInputEmail1" value="" placeholder="Enter Last Name" required>
+              </div>
+              <div class="form-group col-md-6">
+                  <label for="exampleInputEmail1">Email</label>
+                  <input type="email" class="form-control" name="email" id="exampleInputEmail1" value="" placeholder="Enter Email ID" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="exampleInputEmail1">Mobile Number</label>
+                <input type="number" class="form-control" name="mobileNumber" id="exampleInputEmail1" value="" placeholder="Enter Mobile Number" required>
+              </div>
+              <div class="col-md-6">
+                <!-- select -->
+                <div class="form-group">
+                  <label>Select Police Station</label>
+                  <select class="form-control" name="policeStation" required>
+                    <option value="">Police Station</option>
+                    <% for(let station of policeStations) { %>
+                    <option value="<%=station._id %>"><%=station.name %></option>                    
+                    <% } %>                   
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <!-- select -->
+                <div class="form-group">
+                  <label>Select Officer Type</label>
+                  <select class="form-control" name="usertype" required>
+                    <option value="">Officer Type</option>
+                    <option value="2">Inspector</option>
+                    <option value="3">Enquiry Officer</option>
+                    <option value="4">Constable</option>                    
+                  </select>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="exampleInputEmail1">Address</label>
+                <textarea class="form-control" rows="3" name="address"placeholder="Enter address" required></textarea>
+              </div>
+                                            
+            </div>
+            <!-- /.card-body -->
+
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-outline-light">Add Police Officer</button>
+            </div>
+
+          </form>
+          </div>
+        </div>
+        
+        
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+
+  <%- include('./footer.ejs') %>
+
+  <script>
+    function deletePoliceOfficer(id){
+      //alert(id);
+      var result = confirm("Want to delete?");
+        if (result) {
+          location.href = '<%=locals.baseURL %>/policeOfficers/delete/'+id;
+        }
+    }
+  </script>
